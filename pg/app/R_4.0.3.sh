@@ -1,28 +1,23 @@
 #!/bin/bash
 
-
 module purge
 set -eux
 
-# DEFINE WHERE TO INSTALL, APP NAME AND VERSION
 MODROOT=/nfs/data06/ricky/app
-APP=gctb
-VER=2.02
+APP=R
+VER=4.0.3
 
-
-# MAKE THE MODULE DIRECTORY
 APPDIR=$MODROOT/$APP
 mkdir -p $APPDIR && cd $APPDIR
 
-# DOWNLOAD AND INSTALL TO `$APPDIR/$VER`
-wget --no-check-certificate https://cnsgenomics.com/software/gctb/download/${APP}_${VER}_Linux.zip
-unzip ${APP}_${VER}_Linux.zip
-rm ${APP}_${VER}_Linux.zip
-rm -rf __MACOSX
-mv ${APP}_${VER}_Linux ${VER}
+CONDA_SH=Miniconda3-py37_4.9.2-Linux-x86_64.sh
+curl -O https://repo.anaconda.com/miniconda/${CONDA_SH}
+sh ${CONDA_SH} -b -p $APPDIR/$VER
+rm ${CONDA_SH}
+cd $VER
+./bin/conda install -c conda-forge -c defaults -y r-base=$VER
+rm -rf pkgs
 
-
-# WRITE A MODULEFILE
 cd $MODROOT/.modulefiles && mkdir -p $APP
 cat <<__END__ >$APP/$VER.lua
 -- Default settings
@@ -31,11 +26,5 @@ local appname    = myModuleName()
 local appversion = myModuleVersion()
 local apphome    = pathJoin(modroot, myModuleFullName())
 -- Package settings
-prepend_path("PATH", apphome)
+prepend_path("PATH", pathJoin(apphome, "bin"))
 __END__
-
-
-
-
-
-

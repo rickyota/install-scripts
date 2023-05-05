@@ -4,9 +4,9 @@ module purge
 set -eux
 
 # DEFINE WHERE TO INSTALL, APP NAME AND VERSION
-MODROOT=/nfs/data06/ricky/app/
-APP=plink2
-VER=20230426
+MODROOT=/nfs/data06/ricky/app
+APP=plink
+VER=20230116
 
 
 # MAKE THE MODULE DIRECTORY
@@ -16,9 +16,9 @@ mkdir -p $APPDIR && cd $APPDIR
 mkdir -p $VER && cd $VER
 
 # DOWNLOAD AND INSTALL TO `$APPDIR/$VER`
-wget https://s3.amazonaws.com/plink2-assets/${APP}_linux_avx2_${VER}.zip 
-unzip ${APP}_linux_avx2_${VER}.zip 
-rm ${APP}_linux_avx2_${VER}.zip
+wget https://s3.amazonaws.com/plink1-assets/${APP}_linux_x86_64_${VER}.zip
+unzip ${APP}_linux_x86_64_${VER}.zip
+rm ${APP}_linux_x86_64_${VER}.zip
 
 
 # WRITE A MODULEFILE

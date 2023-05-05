@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-echo "somehow, 20220814 not found"
-exit 0
+echo "link expired"
+exit 1
 
 module purge
 set -eux
