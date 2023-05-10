@@ -14,7 +14,7 @@ else
     source /bio/lmod/lmod/init/bash
 fi
 
-module avail
+#module avail
 
 module purge
 set -eux
@@ -48,6 +48,9 @@ OS_VER=$(lsb_release -a | grep "^Release" | cut -f2,2 | cut -d'.' -f1,1)
 
 
 
+# TODO: platform detection in lmod
+# https://blog.entek.org.uk/notes/2021/07/27/platform-detection-with-lmod.html
+
 
 cd $MODROOT/.modulefiles && mkdir -p $APP
 cat <<__END__ >$APP/$VER.lua
@@ -56,13 +59,29 @@ local modroot    = "$MODROOT"
 local appname    = myModuleName()
 local appversion = myModuleVersion()
 local apphome    = pathJoin(modroot, myModuleFullName())
-execute {
-	cmd="export OS_VER=\$(lsb_release -a | grep \"^Release\" | cut -f2,2 | cut -d'.' -f1,1)",
-	modeA={"load"}
-}
-local os_ver    = os.getenv("OS_VER") or ""
 -- Package settings
-if (os_ver == "8") then
-	prepend_path("PATH", pathJoin(apphome, "build/bin"))
-end
+prepend_path("PATH", pathJoin(apphome, "build/bin"))
 __END__
+
+
+# occasionally raise error due to wrong os_ver==8
+#cd $MODROOT/.modulefiles && mkdir -p $APP
+#cat <<__END__ >$APP/$VER.lua
+#-- Default settings
+#local modroot    = "$MODROOT"
+#local appname    = myModuleName()
+#local appversion = myModuleVersion()
+#local apphome    = pathJoin(modroot, myModuleFullName())
+#execute {
+#	cmd="export OS_VER=\$(lsb_release -a | grep \"^Release\" | cut -f2,2 | cut -d'.' -f1,1)",
+#	modeA={"load"}
+#}
+#local os_ver    = os.getenv("OS_VER") or ""
+#-- Package settings
+#if (os_ver == 8) then
+#	prepend_path("PATH", pathJoin(apphome, "build/bin"))
+#else
+#	error("NotImplementedError: use CentOS8.")
+#end
+#__END__
+#
