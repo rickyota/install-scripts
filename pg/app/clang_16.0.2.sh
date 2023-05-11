@@ -60,7 +60,19 @@ local appname    = myModuleName()
 local appversion = myModuleVersion()
 local apphome    = pathJoin(modroot, myModuleFullName())
 -- Package settings
-prepend_path("PATH", pathJoin(apphome, "build/bin"))
+if mode() == "load" then
+    depends_on('hpcenv')
+end
+
+if (os.getenv("HPC_OS_VERSION_MAJOR") == "8") then
+    prepend_path("PATH", pathJoin(apphome, "build/bin"))
+else
+	LmodError("NotImplementedError: use CentOS8.")
+end
+
+if mode() == "unload" then
+    depends_on('hpcenv')
+end
 __END__
 
 

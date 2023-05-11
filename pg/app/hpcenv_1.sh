@@ -67,7 +67,7 @@ function detect_os()
         -- TODO:ng: sed not affect...
         -- os_version = get_command_output("lsb_release -r | sed 's/^Release: //'")
         -- os_version = get_command_output("lsb_release -r | sed -e 's/^Release://'")
-        -- os_version = get_command_output("lsb_release -r | sed 's/^Release:\s\+\([0-9.]\+\)$/\1/'")
+        -- os_version = get_command_output("lsb_release -r | sed 's/^Release:\s\+\([0-9.]\+\)$/\1/'"
         -- regex does not work well...
         -- os_version = get_command_output("lsb_release -r | sed 's/^Release:[[:space:]]\+\([0-9.]\+\)$/\1/'")
 
