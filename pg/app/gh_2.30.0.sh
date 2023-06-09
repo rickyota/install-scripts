@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 OS_VER=$(lsb_release -r | cut -f2,2 | cut -d'.' -f1,1)
 if [[ ${OS_VER} == "8" ]]; then
     source /bio/lmod-rl8/lmod/lmod/init/bash
@@ -11,21 +10,23 @@ fi
 module purge
 set -eux
 
+# DEFINE WHERE TO INSTALL, APP NAME AND VERSION
 MODROOT=/nfs/data06/ricky/app
-APP=R
-VER=4.0.3
+APP=gh
+VER=2.30.0
 
+
+# MAKE THE MODULE DIRECTORY
 APPDIR=$MODROOT/$APP
 mkdir -p $APPDIR && cd $APPDIR
 
-CONDA_SH=Miniconda3-py37_4.9.2-Linux-x86_64.sh
-curl -O https://repo.anaconda.com/miniconda/${CONDA_SH}
-sh ${CONDA_SH} -b -p $APPDIR/$VER
-rm ${CONDA_SH}
-cd $VER
-./bin/conda install -c conda-forge -c defaults -y r-base=$VER
-rm -rf pkgs
+#wget https://github.com/cli/cli/releases/download/v${VER}/gh_${VER}_linux_amd64.tar.gz
+#tar -zxf gh_${VER}_linux_amd64.tar.gz
+#rm gh_${VER}_linux_amd64.tar.gz
+#mv gh_${VER}_linux_amd64 ${VER}
 
+
+# WRITE A MODULEFILE
 cd $MODROOT/.modulefiles && mkdir -p $APP
 cat <<__END__ >$APP/$VER.lua
 -- Default settings
@@ -34,5 +35,7 @@ local appname    = myModuleName()
 local appversion = myModuleVersion()
 local apphome    = pathJoin(modroot, myModuleFullName())
 -- Package settings
-prepend_path("PATH", pathJoin(apphome, "bin"))
+prepend_path("PATH", pathJoin(apphome, "bin/"))
 __END__
+
+

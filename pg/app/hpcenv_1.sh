@@ -64,10 +64,8 @@ function detect_os()
     if file_exists("/usr/bin/lsb_release") then
         -- ok but cannot strip space, so let get_command_output to strip
         os_version = get_command_output("lsb_release -r | sed 's/^Release://'")
-        -- TODO:ng: sed not affect...
+        -- TODO:ng: sed regex not affect...
         -- os_version = get_command_output("lsb_release -r | sed 's/^Release: //'")
-        -- os_version = get_command_output("lsb_release -r | sed -e 's/^Release://'")
-        -- os_version = get_command_output("lsb_release -r | sed 's/^Release:\s\+\([0-9.]\+\)$/\1/'"
         -- regex does not work well...
         -- os_version = get_command_output("lsb_release -r | sed 's/^Release:[[:space:]]\+\([0-9.]\+\)$/\1/'")
 

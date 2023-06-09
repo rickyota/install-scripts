@@ -7,7 +7,8 @@
 
 # how to avoid source here?
 #source /bio/lmod-rl8/lmod/lmod/init/bash
-OS_VER=$(lsb_release -a | grep "^Release" | cut -f2,2 | cut -d'.' -f1,1)
+#OS_VER=$(lsb_release -a | grep "^Release" | cut -f2,2 | cut -d'.' -f1,1)
+OS_VER=$(lsb_release -r | cut -f2,2 | cut -d'.' -f1,1)
 if [[ ${OS_VER} == "8" ]]; then
     source /bio/lmod-rl8/lmod/lmod/init/bash
 else
