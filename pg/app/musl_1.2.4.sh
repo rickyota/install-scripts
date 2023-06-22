@@ -3,11 +3,12 @@
 #TODO:  check if centos 8
 # chekc if work with centos7 or not
 
+
+OS_VER=$(lsb_release -r | cut -f2,2 | cut -d'.' -f1,1)
 if [[ ${OS_VER} != "8" ]]; then
     echo "use centos8"
     exit 1
 fi
-
 
 # how to avoid source here?
 #source /bio/lmod-rl8/lmod/lmod/init/bash
@@ -25,31 +26,41 @@ module purge
 set -eux
 
 MODROOT=/nfs/data06/ricky/app
-APP=clang
+APP=musl
 # should split MODROOT?
 #OSVER=centos8
-VER=16.0.2
+VER=1.2.4
 
 APPDIR=$MODROOT/$APP #/$OSVER
 mkdir -p $APPDIR && cd $APPDIR
 
-#module load gcc/9.2.0
-#module load glibc/2.17
+
+# not sure need this?
+module load clang/16.0.2
+
+# not necessary?
+##module load gcc/9.2.0
+##module load glibc/2.17
 
 # TODO: add centosver to path
 OS_VER=$(lsb_release -a | grep "^Release" | cut -f2,2 | cut -d'.' -f1,1)
 #CENTOSVER=centos${OS_VER}
 
-## download v16.0.2
-## https://clang.llvm.org/get_started.html
-#wget https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-${VER}.zip
-#unzip llvmorg-${VER}.zip
-#mv llvm-project-llvmorg-${VER} ${VER}
-#cd ${VER}
-#mkdir build
-#cd build
-#cmake -DLLVM_ENABLE_PROJECTS=clang -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=gcc -D CMAKE_CXX_COMPILER=g++ -G "Unix Makefiles" ../llvm
-#make
+
+# https://qiita.com/6in/items/3544cec69dd53960c2df
+# https://qiita.com/sile/items/e9d331b3b06565728d1d
+#wget http://www.musl-libc.org/releases/musl-${VER}.tar.gz
+
+#tar xzvf musl-${VER}.tar.gz
+#rm -f  musl-${VER}.tar.gz
+#cd musl-${VER}
+#
+#./configure --disable-shared  --prefix=$APPDIR/$VER
+#make install
+#
+#cd ..
+#rm -rf musl-${VER}
+
 
 
 
@@ -70,7 +81,7 @@ if mode() == "load" then
 end
 
 if (os.getenv("HPC_OS_VERSION_MAJOR") == "8") then
-    prepend_path("PATH", pathJoin(apphome, "build/bin"))
+    prepend_path("PATH", pathJoin(apphome, "bin"))
 else
 	LmodError("NotImplementedError: use CentOS8.")
 end
