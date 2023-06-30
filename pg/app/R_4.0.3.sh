@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# when installing snpnet, this R does not work well...
+# use source /bio/package/R/setup-4.0.3.sh
 
 OS_VER=$(lsb_release -r | cut -f2,2 | cut -d'.' -f1,1)
 if [[ ${OS_VER} == "8" ]]; then

@@ -86,7 +86,7 @@ if mode() == "load" then
     depends_on('hpcenv')
 end
 
-if (os.getenv("HPC_OS_VERSION_MAJOR") == "8") then
+if (os.getenv("HPC_OS_VER_MAJOR") == "8") then
     prepend_path("PATH", pathJoin(apphome, "bin"))
 else
 	LmodError("NotImplementedError: use CentOS8.")

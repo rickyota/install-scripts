@@ -174,8 +174,8 @@ end
 -- Export the OS variables
 setenv("HPC_OS_FULL", os_fullname)
 -- setenv("HPC_OS_SHORT", os_shortname)
-setenv("HPC_OS_VERSION", os_version)
-setenv("HPC_OS_VERSION_MAJOR", os_version_major)
+setenv("HPC_OS_VER", os_version)
+setenv("HPC_OS_VER_MAJOR", os_version_major)
 setenv("HPC_OS_DIST", os_distribution)
 -- Export the architecture variables
 -- setenv("HPC_ARCH_CPU_FULLNAME", arch_cpu_fullname)
