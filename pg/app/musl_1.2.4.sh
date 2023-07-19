@@ -76,20 +76,31 @@ local appname    = myModuleName()
 local appversion = myModuleVersion()
 local apphome    = pathJoin(modroot, myModuleFullName())
 -- Package settings
-if mode() == "load" then
-    depends_on('hpcenv')
-end
-
-if (os.getenv("HPC_OS_VER_MAJOR") == "8") then
-    prepend_path("PATH", pathJoin(apphome, "bin"))
-else
-	LmodError("NotImplementedError: use CentOS8.")
-end
-
-if mode() == "unload" then
-    depends_on('hpcenv')
-end
+prepend_path("PATH", pathJoin(apphome, "bin"))
 __END__
+
+# occasionally raise error due to wrong HPC_OS_VER_MAJOR == 8
+#cat <<__END__ >$APP/$VER.lua
+#-- Default settings
+#local modroot    = "$MODROOT"
+#local appname    = myModuleName()
+#local appversion = myModuleVersion()
+#local apphome    = pathJoin(modroot, myModuleFullName())
+#-- Package settings
+#if mode() == "load" then
+#    depends_on('hpcenv')
+#end
+#
+#if (os.getenv("HPC_OS_VER_MAJOR") == "8") then
+#    prepend_path("PATH", pathJoin(apphome, "bin"))
+#else
+#	LmodError("NotImplementedError: use CentOS8.")
+#end
+#
+#if mode() == "unload" then
+#    depends_on('hpcenv')
+#end
+#__END__
 
 
 # occasionally raise error due to wrong os_ver==8
