@@ -5,14 +5,12 @@
 # lmod documentation
 # https://buildmedia.readthedocs.org/media/pdf/lmod/latest/lmod.pdf
 
-
 MODROOT=/nfs/data06/ricky/app
 APP=hpcenv
 VER=1
 
 APPDIR=$MODROOT/$APP #/$OSVER
 mkdir -p $APPDIR && cd $APPDIR
-
 
 cd $MODROOT/.modulefiles && mkdir -p $APP
 cat <<__END__ >$APP/$VER.lua
@@ -64,7 +62,7 @@ function detect_os()
     if file_exists("/usr/bin/lsb_release") then
         -- ok but cannot strip space, so let get_command_output to strip
         os_version = get_command_output("lsb_release -r | sed 's/^Release://'")
-        -- TODO:ng: sed regex not affect...
+        -- TODO: ng: sed regex not affect...
         -- os_version = get_command_output("lsb_release -r | sed 's/^Release: //'")
         -- regex does not work well...
         -- os_version = get_command_output("lsb_release -r | sed 's/^Release:[[:space:]]\+\([0-9.]\+\)$/\1/'")
@@ -83,6 +81,9 @@ function detect_os()
             -- os_version_major = get_command_output("lsb_release -r | cut -f2,2 | cut -d'.' -f1,1")
         end
         -- os_shortname = short_version_table[os_distribution] .. "-" .. os_version_major
+    elseif file_exists("/etc/centos-release") then
+        os_version = get_command_output("cat /etc/centos-release | sed 's/^CentOS Linux release //' | sed 's/(Core)$//'")
+        os_version_major = string.sub(os_version, string.find(os_version, '^%d+'))
     else
         LmodError("No lsb_release command in /usr/bin - this version of the module has no fallback detection methods.")
     end
@@ -184,4 +185,3 @@ setenv("HPC_OS_DIST", os_distribution)
 -- setenv("HPC_ARCH_PLATFORM", arch_platform)
 
 __END__
-
