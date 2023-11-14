@@ -1,3 +1,3 @@
 # install-scripts
 
-Follow [github](https://github.com/yoshihikosuzuki/install-scripts).
+Follows [here](https://github.com/yoshihikosuzuki/install-scripts).
