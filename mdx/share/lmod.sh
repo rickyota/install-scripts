@@ -37,10 +37,10 @@ cd Lmod-8.7
 	--with-lua=${LUADIR}/install/bin/lua \
 	--with-luac=${LUADIR}/install/bin/luac \
 	--with-tcl=no
+
 # I remember the above failed..., some option should be added
 #    -> 231201, when install again, no problem without lua-posix
 # add --lua-posix (?)
-# this should be necessary
 # --lua-posix=${TMP}/lua-5.1.4.9/luaposix/posix.so
 # or
 # --lua-posix=${TMP}/lua-5.1.4.9/install/lib/lua/5.1/posix.so
