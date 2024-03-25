@@ -82,8 +82,26 @@ function detect_os()
         end
         -- os_shortname = short_version_table[os_distribution] .. "-" .. os_version_major
     elseif file_exists("/etc/centos-release") then
-        os_version = get_command_output("cat /etc/centos-release | sed 's/^CentOS Linux release //' | sed 's/(Core)$//'")
-        os_version_major = string.sub(os_version, string.find(os_version, '^%d+'))
+        -- 'centos' or 'rocky linux'
+        -- ng: not sure why...?
+        -- execute {cmd="source /etc/os-release",modeA={"load"}}
+        -- os_version = os.getenv("VERSION_ID")
+        -- ng: not sure why...?  output is nil
+        -- os_version=get_command_output("source /etc/os-release && echo $VERSION_ID")
+        -- LmodError("os_version: " .. os_version)
+        os_fullname = get_command_output("cat /etc/centos-release")
+        if string.find(os_fullname, "CentOS") ~= nil  then
+            os_distribution = "CentOS"
+            os_version = get_command_output("cat /etc/centos-release | sed 's/^CentOS Linux release //' | sed 's/(Core)$//'")
+            os_version_major = string.sub(os_version, string.find(os_version, '^%d+'))
+        elseif string.find(os_fullname, "Rocky Linux") ~= nil then
+            os_distribution = "Rocky Linux"
+            os_version = get_command_output("cat /etc/centos-release | sed 's/^Rocky Linux release //'")
+            os_version = string.sub(os_version, string.find(os_version, '^%d+.%d+'))
+            os_version_major = string.sub(os_version, string.find(os_version, '^%d+'))
+        else
+            LmodError("Unknown distribution for centos-release.")
+        end
     else
         LmodError("No lsb_release command in /usr/bin - this version of the module has no fallback detection methods.")
     end
