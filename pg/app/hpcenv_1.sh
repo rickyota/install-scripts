@@ -60,6 +60,7 @@ function detect_os()
     -- }
 
     if file_exists("/usr/bin/lsb_release") then
+        -- 'rocky linux' coud be here
         -- ok but cannot strip space, so let get_command_output to strip
         os_version = get_command_output("lsb_release -r | sed 's/^Release://'")
         -- TODO: ng: sed regex not affect...
@@ -68,6 +69,7 @@ function detect_os()
         -- os_version = get_command_output("lsb_release -r | sed 's/^Release:[[:space:]]\+\([0-9.]\+\)$/\1/'")
 
 
+        -- 'Rocky': rocky linux
         os_distribution = get_command_output("lsb_release -i | sed 's/^Distributor ID://'")
         -- os_distribution = get_command_output("lsb_release -i | sed 's/Distributor ID:[[:space:]]\+\([a-zA-Z0-9]\+\)$/\1/'")
 
@@ -95,7 +97,9 @@ function detect_os()
             os_version = get_command_output("cat /etc/centos-release | sed 's/^CentOS Linux release //' | sed 's/(Core)$//'")
             os_version_major = string.sub(os_version, string.find(os_version, '^%d+'))
         elseif string.find(os_fullname, "Rocky Linux") ~= nil then
-            os_distribution = "Rocky Linux"
+            -- same as when lsb_release exists
+            os_distribution = "Rocky"
+            -- os_distribution = "Rocky Linux"
             os_version = get_command_output("cat /etc/centos-release | sed 's/^Rocky Linux release //'")
             os_version = string.sub(os_version, string.find(os_version, '^%d+.%d+'))
             os_version_major = string.sub(os_version, string.find(os_version, '^%d+'))
