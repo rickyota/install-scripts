@@ -1,6 +1,6 @@
 #!/bin/bash
 
-##  Cannot leinstall on 23/03/25 for Rocky Linux 8.9
+#  reinstalled to a01 on 23/04/11 for Rocky Linux 8.9
 
 source /bio/lmod/lmod/init/bash
 
@@ -11,7 +11,7 @@ MODROOT=/nfs/data06/ricky/app
 APP=tmux
 VER=3.2a
 
-APPDIR=$MODROOT/$APP #/$OSVER
+APPDIR=$MODROOT/$APP
 mkdir -p $APPDIR && cd $APPDIR
 
 #module load gcc/9.2.0
