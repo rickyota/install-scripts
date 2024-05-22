@@ -1,30 +1,29 @@
 #!/bin/bash
 
-#  reinstalled to a01 on 23/04/11 for Rocky Linux 8.9
-
 source /bio/lmod/lmod/init/bash
 
 module purge
 set -eux
 
-MODROOT=/nfs/data06/ricky/app
-APP=tmux
-VER=3.2a
+# DEFINE WHERE TO INSTALL, APP NAME AND VERSION
+MODROOT=/nfs/data06/ricky/app/
+APP=plink2
+VER=20240516
 
+
+# MAKE THE MODULE DIRECTORY
 APPDIR=$MODROOT/$APP
 mkdir -p $APPDIR && cd $APPDIR
 
-#module load gcc/9.2.0
+mkdir -p $VER && cd $VER
 
-wget https://github.com/tmux/tmux/releases/download/${VER}/${APP}-${VER}.tar.gz
-tar -zxf ${APP}-${VER}.tar.gz
-rm ${APP}-${VER}.tar.gz
-
-cd ${APP}-${VER}
-./configure --prefix $APPDIR/$VER
-make && make install
+# DOWNLOAD AND INSTALL TO `$APPDIR/$VER`
+wget https://s3.amazonaws.com/plink2-assets/${APP}_linux_avx2_${VER}.zip 
+unzip ${APP}_linux_avx2_${VER}.zip 
+rm ${APP}_linux_avx2_${VER}.zip
 
 
+# WRITE A MODULEFILE
 cd $MODROOT/.modulefiles && mkdir -p $APP
 cat <<__END__ >$APP/$VER.lua
 -- Default settings
@@ -33,5 +32,11 @@ local appname    = myModuleName()
 local appversion = myModuleVersion()
 local apphome    = pathJoin(modroot, myModuleFullName())
 -- Package settings
-prepend_path("PATH", pathJoin(apphome, "bin"))
+prepend_path("PATH", apphome)
 __END__
+
+
+
+
+
+
