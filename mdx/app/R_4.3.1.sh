@@ -6,7 +6,6 @@ module purge
 set -eux
 
 # DEFINE WHERE TO INSTALL, APP NAME AND VERSION
-#MODROOT=/nfs/data06/ricky/app/
 MODROOT=/large/ricky/app/
 APP=R
 #VER=4.0.3
