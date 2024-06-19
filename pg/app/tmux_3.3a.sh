@@ -1,12 +1,8 @@
 #!/bin/bash
 
-# how to avoid source here?
-OS_VER=$(lsb_release -a | grep "^Release" | cut -f2,2 | cut -d'.' -f1,1)
-if [[ ${OS_VER} == "8" ]]; then
-    source /bio/lmod-rl8/lmod/lmod/init/bash
-else
-    source /bio/lmod/lmod/init/bash
-fi
+##  Cannot leinstall on 23/03/25 for Rocky Linux 8.9
+
+source /bio/lmod/lmod/init/bash
 
 module purge
 set -eux
@@ -18,7 +14,7 @@ VER=3.3a
 APPDIR=$MODROOT/$APP #/$OSVER
 mkdir -p $APPDIR && cd $APPDIR
 
-module load gcc/9.2.0
+#module load gcc/9.2.0
 
 wget https://github.com/tmux/tmux/releases/download/${VER}/${APP}-${VER}.tar.gz
 tar -zxf ${APP}-${VER}.tar.gz
