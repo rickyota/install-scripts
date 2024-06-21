@@ -1,0 +1,8 @@
+
+# ng
+#/docker/**/*
+#!/docker/**/*.sh
+
+# ok
+#/docker/merlin/1.1.2/*
+#!/docker/merlin/1.1.2/*.sh

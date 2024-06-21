@@ -1,10 +1,18 @@
 #!/bin/bash
 
+# cannot compile
+# 
+# tried but failed: 
+# - add -std=c++03 in Makefile CXXFLAGS
+
+exit 1
+
+# bash ./run.sh
+
 set -eux
 
 APP=merlin
 VER=1.1.2
-
 
 #wget https://csg.sph.umich.edu/abecasis/merlin/download/${APP}-${VER}.tar.gz
 
@@ -13,25 +21,36 @@ VER=1.1.2
 
 
 
-#lib="./ghm-${VER}"
+lib="./${APP}-${VER}"
 
 dockerfile="./Dockerfile"
 
 
 cat <<__END__ >$dockerfile
 
+FROM --platform=linux/amd64 debian:bookworm-slim AS builder
+
+
+WORKDIR /opt/${APP}-${VER}/
+COPY ${lib} .
+
+RUN apt update && \
+	apt install -y --no-install-recommends \
+	make build-essential libz-dev
+
+RUN make all
+RUN make install INSTALLDIR=/opt/bin/
+
+
+
 FROM --platform=linux/amd64 debian:bookworm-slim AS runner
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    libnlopt-dev \
-    libreadline-dev
-
 WORKDIR /app/
-COPY ${lib}/ghm_linux ./ghm
+COPY --from=builder /opt/bin/* /app/
 
-
-ENTRYPOINT ["/app/ghm"]
+WORKDIR /script/
+COPY ./commands.sh /script/commands.sh
+ENTRYPOINT ["/script/commands.sh"]
 
 __END__
 

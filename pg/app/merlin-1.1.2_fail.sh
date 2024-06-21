@@ -1,7 +1,13 @@
 #!/bin/bash
 
-# pre-compiled run (only on z01?)
+# https://csg.sph.umich.edu/abecasis/merlin/download/
+
+# pre-compiled cannot run
 # https://csg.sph.umich.edu/abecasis/Merlin/download/Linux-merlin.tar.gz
+
+
+# cannot compile on pg
+exit 1
 
 source /bio/lmod/lmod/init/bash
 
@@ -18,9 +24,17 @@ VER=1.1.2
 APPDIR=$MODROOT/$APP #/$VER
 mkdir -p $APPDIR && cd $APPDIR
 
-#wget https://csg.sph.umich.edu/abecasis/Merlin/download/Linux-merlin.tar.gz
-#tar -zxvf ./Linux-merlin.tar.gz
-#mv ./${APP}-${VER} ${VER}
+#wget https://csg.sph.umich.edu/abecasis/merlin/download/merlin-1.1.2.tar.gz
+
+cd ${APP}-${VER}
+make install INSTALLDIR=${APPDIR}/$VER
+
+#singularity pull ${APP}.sif docker://rickyota/${APP}:${VER}
+#cat <<__END__ >$APP
+##!/bin/bash
+#singularity exec $APPDIR/${APP}.sif /app/ghm \$*
+#__END__
+#chmod +x $APP
 
 
 # WRITE A MODULEFILE
