@@ -1,14 +1,17 @@
 #!/bin/bash
 
+# raise error even in centos 8
+exit 1
+
 #TODO:  check if centos 8
 # chekc if work with centos7 or not
 
 # might not necessary
-#OS_VER=$(lsb_release -r | cut -f2,2 | cut -d'.' -f1,1)
-#if [[ ${OS_VER} != "8" ]]; then
-#    echo "use centos8"
-#    exit 1
-#fi
+OS_VER=$(lsb_release -r | cut -f2,2 | cut -d'.' -f1,1)
+if [[ ${OS_VER} != "8" ]]; then
+    echo "use centos8"
+    exit 1
+fi
 
 # how to avoid source here?
 #source /bio/lmod-rl8/lmod/lmod/init/bash
@@ -77,7 +80,19 @@ local appname    = myModuleName()
 local appversion = myModuleVersion()
 local apphome    = pathJoin(modroot, myModuleFullName())
 -- Package settings
-prepend_path("PATH", pathJoin(apphome, "bin"))
+if mode() == "load" then
+    depends_on('hpcenv')
+end
+
+if (os.getenv("HPC_OS_VER_MAJOR") == "8") then
+    prepend_path("PATH", pathJoin(apphome, "bin"))
+else
+	LmodError("NotImplementedError: use CentOS8.")
+end
+
+if mode() == "unload" then
+    depends_on('hpcenv')
+end
 __END__
 
 # occasionally raise error due to wrong os_ver==8

@@ -21,7 +21,7 @@ module purge
 set -eux
 
 MODROOT=/nfs/data06/ricky/app
-APP=muslcc
+APP=muslcc-cross
 # should split MODROOT?
 #OSVER=centos8
 VER=11.2.1
@@ -34,7 +34,7 @@ mkdir -p $APPDIR && cd $APPDIR
 
 # SHOULD run before ml load gcc or glibc
 # TODO: add centosver to path
-OS_VER=$(lsb_release -r | cut -f2,2 | cut -d'.' -f1,1)
+#OS_VER=$(lsb_release -r | cut -f2,2 | cut -d'.' -f1,1)
 #CENTOSVER=centos${OS_VER}
 
 #set +ux
@@ -42,12 +42,14 @@ OS_VER=$(lsb_release -r | cut -f2,2 | cut -d'.' -f1,1)
 #module load glibc/2.17
 #set -ux
 
+# downloaded via cocoa
+#curl -LO https://musl.cc/x86_64-linux-musl-cross.tgz
 # https://kateinoigakukun.hatenablog.com/entry/2022/02/18/232723
 #curl -LO https://musl.cc/x86_64-linux-musl-native.tgz
 
-#tar xfz x86_64-linux-musl-native.tgz
-#rm -f x86_64-linux-musl-native.tgz
-#mv x86_64-linux-musl-native ${VER}
+tar xfz x86_64-linux-musl-cross.tgz
+rm -f x86_64-linux-musl-cross.tgz
+mv x86_64-linux-musl-cross ${VER}
 
 cd ${VER}/bin
 ln -sf x86_64-linux-musl-cc musl-cc
