@@ -5,15 +5,15 @@ module purge
 set -eux
 
 MODROOT=/nfs/data06/ricky/app
-APP=deepvariant
+APP=pangenome_aware_deepvariant
 VER=1.8.0
 
 APPDIR=$MODROOT/$APP/$VER
 mkdir -p $APPDIR
 cd $APPDIR
 
-singularity pull $APP.sif docker://google/$APP:$VER
-for CMD in run_deepvariant make_examples call_variants postprocess_variants; do
+singularity pull $APP.sif docker://google/deepvariant:${APP}-${VER}
+for CMD in run_pangenome_aware_deepvariant; do
     echo '#!/bin/sh' >$CMD
     echo "singularity exec $APPDIR/$APP.sif $CMD \$*" >>$CMD
     chmod +x $CMD
