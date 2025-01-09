@@ -13,7 +13,7 @@ mkdir -p $APPDIR
 cd $APPDIR
 
 singularity pull deepvariant.sif docker://google/deepvariant:$VER-gpu
-for CMD in run_deepvariant make_examples call_variants postprocess_variants; do
+for CMD in run_pangenome_aware_deepvariant run_deepvariant make_examples call_variants postprocess_variants; do
     echo '#!/bin/sh' >$CMD
     echo "singularity exec --nv $APPDIR/deepvariant.sif $CMD \$*" >>$CMD
     chmod +x $CMD
