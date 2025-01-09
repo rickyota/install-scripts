@@ -12,10 +12,10 @@ APPDIR=$MODROOT/$APP/$VER
 mkdir -p $APPDIR
 cd $APPDIR
 
-singularity pull $APP.sif docker://google/deepvariant:pangenome_aware_deepvariant-${VER}-gpu
+#singularity pull $APP.sif docker://google/deepvariant:pangenome_aware_deepvariant-${VER}-gpu
 for CMD in run_pangenome_aware_deepvariant; do
     echo '#!/bin/sh' >$CMD
-    echo "singularity exec --nv $APPDIR/deepvariant.sif $CMD \$*" >>$CMD
+    echo "singularity exec --nv $APPDIR/$APP.sif $CMD \$*" >>$CMD
     chmod +x $CMD
 done
 # TODO: pip install altair?
