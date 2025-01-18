@@ -7,19 +7,21 @@ set -eux
 
 # DEFINE WHERE TO INSTALL, APP NAME AND VERSION
 MODROOT=/nfs/data06/ricky/app
-APP=gctb
-VER=2.02
+APP=kmc
+VER=3.2.4
 
 # MAKE THE MODULE DIRECTORY
 APPDIR=$MODROOT/$APP
 mkdir -p $APPDIR && cd $APPDIR
 
+mkdir -p $VER && cd $VER
+
 # DOWNLOAD AND INSTALL TO `$APPDIR/$VER`
-wget --no-check-certificate https://cnsgenomics.com/software/gctb/download/${APP}_${VER}_Linux.zip
-unzip ${APP}_${VER}_Linux.zip
-rm ${APP}_${VER}_Linux.zip
-rm -rf __MACOSX
-mv ${APP}_${VER}_Linux ${VER}
+wget -O - https://github.com/refresh-bio/KMC/releases/download/v${VER}/KMC${VER}.linux.x64.tar.gz | tar xzvf -
+
+mv ./bin/{kmc,kmc_dump,kmc_tools} .
+
+rm -r ./bin ./include
 
 # WRITE A MODULEFILE
 cd $MODROOT/.modulefiles && mkdir -p $APP

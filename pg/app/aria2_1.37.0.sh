@@ -1,27 +1,27 @@
 #!/bin/bash
 
+#  reinstalled to a01 on 23/04/11 for Rocky Linux 8.9
+
 source /bio/lmod/lmod/init/bash
 
 module purge
 set -eux
 
-# DEFINE WHERE TO INSTALL, APP NAME AND VERSION
 MODROOT=/nfs/data06/ricky/app
-APP=gctb
-VER=2.02
+APP=aria2
+VER=1.37.0
 
-# MAKE THE MODULE DIRECTORY
 APPDIR=$MODROOT/$APP
 mkdir -p $APPDIR && cd $APPDIR
 
-# DOWNLOAD AND INSTALL TO `$APPDIR/$VER`
-wget --no-check-certificate https://cnsgenomics.com/software/gctb/download/${APP}_${VER}_Linux.zip
-unzip ${APP}_${VER}_Linux.zip
-rm ${APP}_${VER}_Linux.zip
-rm -rf __MACOSX
-mv ${APP}_${VER}_Linux ${VER}
+#git clone https://github.com/aria2/aria2.git
+#mv ${APP} ${APP}-${VER}
+cd ${APP}-${VER}
+autoreconf -i
+./configure --prefix $APPDIR/$VER
+#cd src
+make && make install
 
-# WRITE A MODULEFILE
 cd $MODROOT/.modulefiles && mkdir -p $APP
 cat <<__END__ >$APP/$VER.lua
 -- Default settings
@@ -30,5 +30,5 @@ local appname    = myModuleName()
 local appversion = myModuleVersion()
 local apphome    = pathJoin(modroot, myModuleFullName())
 -- Package settings
-prepend_path("PATH", apphome)
+prepend_path("PATH", pathJoin(apphome, "bin"))
 __END__

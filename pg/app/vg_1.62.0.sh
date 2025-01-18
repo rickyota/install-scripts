@@ -7,19 +7,18 @@ set -eux
 
 # DEFINE WHERE TO INSTALL, APP NAME AND VERSION
 MODROOT=/nfs/data06/ricky/app
-APP=gctb
-VER=2.02
+APP=vg
+VER=1.62.0
 
 # MAKE THE MODULE DIRECTORY
 APPDIR=$MODROOT/$APP
 mkdir -p $APPDIR && cd $APPDIR
 
 # DOWNLOAD AND INSTALL TO `$APPDIR/$VER`
-wget --no-check-certificate https://cnsgenomics.com/software/gctb/download/${APP}_${VER}_Linux.zip
-unzip ${APP}_${VER}_Linux.zip
-rm ${APP}_${VER}_Linux.zip
-rm -rf __MACOSX
-mv ${APP}_${VER}_Linux ${VER}
+mkdir $VER
+cd $VER
+wget https://github.com/vgteam/vg/releases/download/v${VER}/vg
+chmod +x vg
 
 # WRITE A MODULEFILE
 cd $MODROOT/.modulefiles && mkdir -p $APP
