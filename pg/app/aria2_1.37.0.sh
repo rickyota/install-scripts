@@ -14,12 +14,11 @@ VER=1.37.0
 APPDIR=$MODROOT/$APP
 mkdir -p $APPDIR && cd $APPDIR
 
-#git clone https://github.com/aria2/aria2.git
-#mv ${APP} ${APP}-${VER}
+git clone https://github.com/aria2/aria2.git
+mv ${APP} ${APP}-${VER}
 cd ${APP}-${VER}
 autoreconf -i
 ./configure --prefix $APPDIR/$VER
-#cd src
 make && make install
 
 cd $MODROOT/.modulefiles && mkdir -p $APP
