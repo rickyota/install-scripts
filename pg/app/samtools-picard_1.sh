@@ -8,28 +8,20 @@ module purge
 set -eux
 
 MODROOT=/nfs/data06/ricky/app
-APP=gatk-bedtools
-VER=3.8.1_2.21.0
+APP=samtools-picard
+VER=1
 
 APPDIR=$MODROOT/$APP/$VER
 mkdir -p $APPDIR
 cd $APPDIR
 
-# singularity pull $APP.sif docker://quay.io/jmonlong/${APP}:${VER}
-
-# for CMD in realigner; do
-CMD=realigner
-echo '#!/bin/sh' >$CMD
-echo "singularity exec $APPDIR/$APP.sif java -jar /usr/GenomeAnalysisTK.jar -T RealignerTargetCreator \$*" >>$CMD
-# echo "singularity exec $APPDIR/$APP.sif $CMD \$*" >>$CMD
-chmod +x $CMD
-# done
-
-CMD=bedtools
-echo '#!/bin/sh' >$CMD
-echo "singularity exec $APPDIR/$APP.sif $CMD \$*" >>$CMD
-# echo "singularity exec $APPDIR/$APP.sif $CMD \$*" >>$CMD
-chmod +x $CMD
+singularity pull $APP.sif docker://quay.io/cmarkello/samtools_picard@sha256:e484603c61e1753c349410f0901a7ba43a2e5eb1c6ce9a240b7f737bba661eb4
+for CMD in CreateSequenceDictionary; do
+	echo '#!/bin/sh' >$CMD
+	echo "singularity exec $APPDIR/$APP.sif java -jar /usr/picard/picard.jar CreateSequenceDictionary \$*" >>$CMD
+	# echo "singularity exec $APPDIR/$APP.sif $CMD \$*" >>$CMD
+	chmod +x $CMD
+done
 
 cd $MODROOT/.modulefiles && mkdir -p $APP
 cat <<__END__ >$APP/$VER.lua
