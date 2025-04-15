@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# for vg wdl
+# https://github.com/vgteam/vg_wdl/blob/master/tasks/bioinfo_utils.wdl
+
 source /bio/lmod/lmod/init/bash
 module purge
 set -eux

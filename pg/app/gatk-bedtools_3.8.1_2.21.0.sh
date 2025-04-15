@@ -8,17 +8,18 @@ module purge
 set -eux
 
 MODROOT=/nfs/data06/ricky/app
-APP=freebayes-samtools
-VER=1.2.0_1.10
+APP=gatk-bedtools
+VER=3.8.1_2.21.0
 
 APPDIR=$MODROOT/$APP/$VER
 mkdir -p $APPDIR
 cd $APPDIR
 
-singularity pull $APP.sif docker://quay.io/jmonlong/${APP}:${VER}
-for CMD in bamleftalign; do
+# singularity pull $APP.sif docker://quay.io/jmonlong/${APP}:${VER}
+for CMD in realigner; do
 	echo '#!/bin/sh' >$CMD
-	echo "singularity exec $APPDIR/$APP.sif $CMD \$*" >>$CMD
+	echo "singularity exec $APPDIR/$APP.sif java -jar /usr/GenomeAnalysisTK.jar -T RealignerTargetCreator \$*" >>$CMD
+	# echo "singularity exec $APPDIR/$APP.sif $CMD \$*" >>$CMD
 	chmod +x $CMD
 done
 
