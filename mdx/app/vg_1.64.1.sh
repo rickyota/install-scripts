@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#source /large/share/app/lmod/bash
+source /large/share/app/lmod/bash
 
 module purge
 set -eux

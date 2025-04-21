@@ -1,6 +1,8 @@
 #!/bin/bash
 
-#source /large/share/app/lmod/bash
+# somehow, vg/1.51.0 is not shown on `module avail`
+
+source /large/share/app/lmod/bash
 
 module purge
 set -eux
