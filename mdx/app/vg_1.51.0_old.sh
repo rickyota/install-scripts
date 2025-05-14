@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# somehow, vg/1.51.0 is not shown on `module avail`
+
 source /large/share/app/lmod/bash
 
 module purge
@@ -8,7 +10,7 @@ set -eux
 # DEFINE WHERE TO INSTALL, APP NAME AND VERSION
 MODROOT=/large/ricky/app/
 APP=vg
-VER=1.62.0
+VER=1.51.0
 
 # MAKE THE MODULE DIRECTORY
 APPDIR=$MODROOT/$APP
