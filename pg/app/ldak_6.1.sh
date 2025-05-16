@@ -19,7 +19,9 @@ mkdir -p $APPDIR && cd $APPDIR
 mkdir -p $VER && cd $VER
 
 # DOWNLOAD AND INSTALL TO `$APPDIR/$VER`
-wget https://github.com/dougspeed/LDAK/blob/main/${APP}${VER}.linux
+wget https://github.com/dougspeed/LDAK/raw/main/${APP}${VER}.linux
+# wget https://raw.githubusercontent.com/dougspeed/LDAK/refs/heads/main/${APP}${VER}.linux
+# wget https://github.com/dougspeed/LDAK/blob/main/${APP}${VER}.linux
 # wget https://github.com/dougspeed/LDAK/blob/main/ldak6.1.linux
 #wget https://s3.amazonaws.com/plink2-assets/${APP}_linux_avx2_${VER}.zip
 # wget https://s3.amazonaws.com/plink2-assets/alpha6/plink2_linux_avx2_${VER}.zip
@@ -27,6 +29,7 @@ wget https://github.com/dougspeed/LDAK/blob/main/${APP}${VER}.linux
 # rm ${APP}_linux_avx2_${VER}.zip
 
 mv ${APP}${VER}.linux $APP
+chmod +x $APP
 
 # WRITE A MODULEFILE
 cd $MODROOT/.modulefiles && mkdir -p $APP
