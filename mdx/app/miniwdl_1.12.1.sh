@@ -2,7 +2,7 @@
 
 # use conda installed locally in ./app/csvkit
 
-source /bio/lmod/lmod/init/bash
+source /large/share/app/lmod/bash
 
 module purge
 set -eux
