@@ -7,7 +7,6 @@ set -eux
 
 # DEFINE WHERE TO INSTALL, APP NAME AND VERSION
 MODROOT=/large/ricky/app/
-#MODROOT=/nfs/data06/ricky/app
 APP=kmc
 VER=3.2.4
 
